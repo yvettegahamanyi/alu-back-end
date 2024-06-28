@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
-"""CSV export"""
+"""JSON export"""
 
-import csv
+import json
 import requests
 import sys
 
@@ -22,8 +22,8 @@ if __name__ == '__main__':
     number_of_done_tasks = len(task_completed)
     total_number_of_tasks = len(todos_info)
     
-    with open('{}.csv'.format(user_id), 'w') as csvfile:
-        csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
-        [csvwriter.writerow([user_id, user_info["username"],
-                             task["completed"], task["title"]])
-         for task in todos_info]
+    with open('{}.json'.format(user_id), 'w') as jsonfile:
+        json.dump({user_id: [{"task": task['title'],
+                              "complete": task["completed"],
+                              "username": user_info["username"]}
+                             for task in todos_info]}, jsonfile)
